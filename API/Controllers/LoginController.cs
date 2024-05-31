@@ -6,16 +6,10 @@ namespace API.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        [HttpPost("Login")]
+        /*[HttpPost("Login")]
         public IActionResult Login([FromBody] LoginData data)
         {
             return Ok(data);
-        }
-    }
-
-    public class LoginData
-    {
-        public required string Email { get; set; }
-        public required string Password { get; set; }
+        }*/
     }
 }

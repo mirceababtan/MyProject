@@ -1,4 +1,8 @@
-using API.Infrastrcuture.Database;
+using API.Infrastructure.Database;
+using API.Manager.User;
+using API.Manager.User.Contract;
+using API.Resource.User;
+using API.Resource.User.Contract;
 using Microsoft.AspNetCore.Authentication.Negotiate;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,6 +24,9 @@ namespace API
             {
                 options.UseSqlServer(builder.Configuration.GetConnectionString("default"));
             });
+
+            builder.Services.AddScoped<IUserResource, UserResource>();
+            builder.Services.AddScoped<IUserManager, UserManager>();
 
             builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
                 .AddNegotiate();

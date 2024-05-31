@@ -1,0 +1,59 @@
+<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <label for="username">Username: </label>
+  <input type="text" placeholder="Username" formControlName="username" />
+  @if (submitted && f['username'].errors) {
+  <div>
+    @if (f['username'].errors['required']) {
+    <div>Username is required</div>
+    } @if (f['username'].errors['minlength']) {
+    <div>Username must be at least 6 characters</div>
+    } @if (f['username'].errors['maxlength']) {
+    <div>Username must not exceed 20 characters</div>
+    }
+  </div>
+  }
+
+  <label for="email">Email: </label>
+  <input type="email" placeholder="Email" formControlName="email" />
+  @if (submitted && f['email'].errors) {
+  <div class="invalid-feedback">
+    @if (f['email'].errors['required']) {
+    <div>Email is required</div>
+    } @if (f['email'].errors['email']) {
+    <div>Email is invalid</div>
+    }
+  </div>
+  }
+
+  <label for="password">Password: </label>
+  <input type="password" placeholder="password" formControlName="password" />
+  @if (submitted && f['password'].errors) {
+  <div>
+    @if (f['password'].errors['required']) {
+    <div>Password is required</div>
+    } @if (f['password'].errors['minlength']) {
+    <div>Password must be at least 8 characters</div>
+    } @if (f['password'].errors['maxlength']) {
+    <div>Password must not exceed 32 characters</div>
+    }
+  </div>
+  }
+
+  <label for="confirmPassword">Confirm Password: </label>
+  <input
+    type="password"
+    placeholder="password"
+    formControlName="confirmPassword"
+  />
+  @if (submitted && f['confirmPassword'].errors) {
+  <div>
+    @if (f['confirmPassword'].errors['required']) {
+    <div>Password confirmation is required</div>
+    } @if (f['confirmPassword'].errors['mustMatch']) {
+    <div>Password does not match</div>
+    }
+  </div>
+  }
+
+  <button>Register</button>
+</form>

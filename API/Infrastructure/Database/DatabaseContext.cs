@@ -8,7 +8,7 @@ using API.Resource.User.Contract;
 using API.Resource.User.UserProgress.Contract;
 using Microsoft.EntityFrameworkCore;
 
-namespace API.Infrastrcuture.Database
+namespace API.Infrastructure.Database
 {
     public class DatabaseContext : DbContext
     {

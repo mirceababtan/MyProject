@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../models/user';
+import { RegisterData, User } from '../models/user';
 import { environment } from '../../environment/environment';
 
 @Injectable()
@@ -16,5 +16,13 @@ export class UserService {
 
   GetUserByEmail(email: string): Observable<User> {
     return this.httpClient.get<User>(`${environment.apiUrl}/GetUserByEmail`);
+  }
+
+  InsertUser(data: RegisterData) {
+    return this.httpClient.post<any>(
+      `${environment.apiUrl}/User/Register`,
+      data,
+      { withCredentials: true }
+    );
   }
 }
