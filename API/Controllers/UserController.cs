@@ -11,13 +11,13 @@ namespace API.Client.Controllers
     {
         [HttpGet("User")]
         public IActionResult GetUser() {
-            return Ok(new User()
+            return Ok(/*new User()
             {
                 Id = Guid.NewGuid(),
                 LastName = "Babtan",
                 FirstName = "Mircea",
                 Email = "mircea.babtan@gmail.com"
-            });
+            }*/);
         }
     }
 }
