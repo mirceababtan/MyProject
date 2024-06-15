@@ -8,19 +8,20 @@ import { Router } from '@angular/router';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  email: string = '';
+  user: string = '';
   password: string = '';
   error: string = '';
+  submited: boolean = false;
   constructor(private authService: AuthService, private router: Router) {}
 
   login() {
-    this.authService.login(this.email, this.password).subscribe((response) => {
-      if (response) {
-        localStorage.setItem('currentUser', JSON.stringify(response));
-        console.log(localStorage);
-        this.router.navigate(['/']);
+    this.authService.login(this.user, this.password).subscribe((response) => {
+      this.submited = true;
+      if (response?.token) {
+        this.authService.setTokens(response);
+        this.router.navigate(['/homepage']);
       } else {
-        this.error = 'Login unsuccessfull!';
+        this.error = response.message;
       }
     });
   }

@@ -1,37 +1,6 @@
-@font-face {
-  font-family: "Roboto";
-  src: url("./assets/fonts/roboto/Roboto-Medium.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-}
-
 * {
-  margin: 0;
-  padding: 0;
-  display: block;
   font-family: "Roboto" sans-serif;
   font-weight: 400;
-}
-
-input {
-  padding: 2px 2px 2px 2px;
-  margin: 0px 2px 2px 2px;
-  font-size: 18px;
-}
-
-title {
-  padding: 2px;
-  margin: 2px;
-  font-size: 18px;
-}
-
-button {
-  padding: 3px;
-  margin: 2px;
-  font-size: 14px;
-}
-
-label {
-  padding: 2px 2px 0px 2px;
-  font-size: 18px;
+  padding: 0;
+  margin: 0;
 }

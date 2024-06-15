@@ -1,4 +1,5 @@
 ﻿using API.Infrastructure.Database;
+using API.Manager.User.Contract;
 using API.Resource.User.Contract;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.Contracts;
@@ -12,36 +13,41 @@ namespace API.Resource.User
         {
             _dbContext = dbContext;
         }
-
-        public async Task<Contract.User> SearchUserByUsernameAndEmailAsync(string userData)
-        {
-            var user = await _dbContext.Users.Where(u => u.Username == userData || u.Email == userData)
-                                             .FirstOrDefaultAsync();
-            return user;
-        }
-
-        public async Task<Contract.User> SearchUserByUsernameAndEmailAsync(string username, string email)
+        public async Task<Contract.User?> SearchUserByUsernameAndEmailAsync(string username, string email)
         {
             IQueryable<Contract.User> query = _dbContext.Users;
 
-            if (!string.IsNullOrEmpty(username))
+            if (!string.IsNullOrEmpty(username) && !string.IsNullOrEmpty(email))
+            {
+                query = query.Where(u => u.Username == username || u.Email == email);
+            }
+            else if (!string.IsNullOrEmpty(username))
             {
                 query = query.Where(u => u.Username == username);
             }
-
-            if (!string.IsNullOrEmpty(email))
+            else if (!string.IsNullOrEmpty(email))
             {
                 query = query.Where(u => u.Email == email);
             }
 
-            var user = await query.FirstOrDefaultAsync();
-            return user;
+            return await query.FirstOrDefaultAsync();
         }
+
+        public async Task<Contract.User?> GetUserById(Guid userId)
+        {
+            return await _dbContext.Users.Where(u => u.Id == userId).FirstOrDefaultAsync();
+        }
+
 
         public async Task InsertUser(Contract.User user)
         {
             await _dbContext.Users.AddAsync(user);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<Contract.User>> GetAllUsers()
+        {
+            return await _dbContext.Users.ToListAsync();
         }
     }
 }

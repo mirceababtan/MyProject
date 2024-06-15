@@ -4,8 +4,9 @@
     {
         public Task<User> SearchUserByUsernameAndEmailAsync(string username, string email);
 
-        public Task<Contract.User> SearchUserByUsernameAndEmailAsync(string userData);
+        public Task<User?> GetUserById(Guid userId);
 
         public Task InsertUser(Contract.User user);
+        public Task<List<User>> GetAllUsers();
     }
 }

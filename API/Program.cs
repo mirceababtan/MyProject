@@ -1,10 +1,16 @@
 using API.Infrastructure.Database;
+using API.Manager.Authentication;
+using API.Manager.Authentication.Contract;
 using API.Manager.User;
 using API.Manager.User.Contract;
+using API.Resource.Authentication;
+using API.Resource.Authentication.Contract;
 using API.Resource.User;
 using API.Resource.User.Contract;
-using Microsoft.AspNetCore.Authentication.Negotiate;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace API
 {
@@ -25,11 +31,28 @@ namespace API
                 options.UseSqlServer(builder.Configuration.GetConnectionString("default"));
             });
 
-            builder.Services.AddScoped<IUserResource, UserResource>();
-            builder.Services.AddScoped<IUserManager, UserManager>();
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+                        ValidAudience = builder.Configuration["JwtSettings:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"]))
+                    };
+                });
 
-            builder.Services.AddAuthentication(NegotiateDefaults.AuthenticationScheme)
-                .AddNegotiate();
+            builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
+
+            builder.Services.AddScoped<IUserManager, UserManager>();
+            builder.Services.AddScoped<IAuthManager,AuthManager>();
+            
+            builder.Services.AddScoped<IUserResource, UserResource>();
+            builder.Services.AddScoped<IAuthResource, AuthResource>();
 
             builder.Services.AddAuthorization(options =>
             {
@@ -50,7 +73,6 @@ namespace API
 
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
@@ -62,8 +84,8 @@ namespace API
             app.UseHttpsRedirection();
 
             app.UseAuthentication();
-            app.UseAuthorization();
 
+            app.UseAuthorization();
 
             app.MapControllers();
 

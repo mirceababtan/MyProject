@@ -12,6 +12,7 @@ import { UserService } from '../services/user.service';
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup = this.formBuilder.group({});
   submitted = false;
+  statusMessage: string = '';
 
   data: RegisterData = {
     username: '',
@@ -63,7 +64,9 @@ export class RegisterComponent implements OnInit {
 
     this.data = this.registerForm.value;
 
-    this.userService.InsertUser(this.data).subscribe((response) => {});
+    this.userService.InsertUser(this.data).subscribe((response) => {
+      this.statusMessage = response.message;
+    });
   }
 
   onReset() {

@@ -1,6 +1,7 @@
 ﻿using API.Manager.User.Contract;
 using API.Resource.User.Contract;
-using API.Infrastructure.Cryptography;
+using API.Infrastructure.Utils;
+using API.Manager.Authentication.Contract;
 
 namespace API.Manager.User
 {
@@ -13,9 +14,32 @@ namespace API.Manager.User
             _userResource = userResource;
         }
 
-        public Contract.User GetUserByEmail(string email)
+        public async Task<Contract.User> GetUserById(Guid userId)
         {
-            throw new NotImplementedException();
+            var user = await _userResource.GetUserById(userId);
+            if (user == null) return new Contract.User();
+
+            return new Contract.User()
+            {
+                UserID = user.Id,
+                Email = user.Email,
+                Username = user.Username,
+                Role = user.Role,
+            };
+        }
+
+        public async Task<Contract.User[]> GetAllUsers()
+        {
+            var users = await _userResource.GetAllUsers();
+            if(users == null || users.Count == 0) return Array.Empty<Contract.User>();
+
+            return users.Select(u => new Contract.User()
+            {
+                UserID = u.Id,
+                Email = u.Email,
+                Username = u.Username,
+                Role = u.Role,
+            }).ToArray();
         }
 
         public async Task<bool> InsertUser(RegisterData data)
@@ -40,14 +64,23 @@ namespace API.Manager.User
 
         }
 
-        public async Task<bool> CheckUser(LoginData loginData)
+        public async Task<Contract.User> CheckUser(LoginData loginData)
         {
-            var user = await _userResource.SearchUserByUsernameAndEmailAsync(loginData.User);
+            var user = await _userResource.SearchUserByUsernameAndEmailAsync(loginData.User,loginData.User);
 
-            if(user == null) return false;
-            //Add token generation and insertion in DB.
+            if(user == null) return new();
 
-            return PasswordHasher.VerifyPassword(loginData.Password, user.PasswordHash, user.PasswordSalt);
+            if(PasswordHasher.VerifyPassword(loginData.Password, user.PasswordHash, user.PasswordSalt))
+            {
+                return (new()
+                {
+                    Username = user.Username,
+                    Email = user.Email,
+                    UserID = user.Id,
+                    Role = user.Role,
+                });
+            }
+            return new();
         }
     }
 }

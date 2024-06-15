@@ -18,6 +18,12 @@ export class UserService {
     return this.httpClient.get<User>(`${environment.apiUrl}/GetUserByEmail`);
   }
 
+  GetAllUsers(): Observable<User[]> {
+    return this.httpClient.get<User[]>(`${environment.apiUrl}/User/All`, {
+      withCredentials: true,
+    });
+  }
+
   InsertUser(data: RegisterData) {
     return this.httpClient.post<any>(
       `${environment.apiUrl}/User/Register`,

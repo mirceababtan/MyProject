@@ -1,0 +1,59 @@
+.main-container {
+  width: 100vw;
+  height: 100vh;
+  background: url(../../assets/background-images/landing-background-Wave.svg);
+
+  overflow: hidden;
+
+  .header-container {
+    width: 100%;
+    min-height: 70px;
+    border: none;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    background-color: rgba(13, 56, 102, 1);
+    align-items: center;
+    justify-content: center;
+    display: flex;
+
+    .main-header {
+      width: 80%;
+      height: max-content;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+
+      .main-header-left-section {
+        display: flex;
+        justify-content: left;
+
+        .image-container {
+          max-height: 70px;
+          width: 100%;
+          padding-top: 4px;
+          padding-bottom: 4px;
+
+          .page-logo {
+            height: 100%;
+            width: auto;
+          }
+        }
+      }
+
+      .main-header-right-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+
+        .action-button {
+          border: none;
+          outline: none;
+          font-size: 1.25rem;
+          background: none;
+          color: wheat;
+        }
+
+        .action-button:hover {
+          opacity: 0.7;
+        }
+      }
+    }
+  }
+}

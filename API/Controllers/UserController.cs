@@ -1,11 +1,12 @@
 ﻿using API.Manager.User.Contract;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserManager _userManager;
@@ -15,12 +16,13 @@ namespace API.Controllers
             _userManager = userManager;
         }
 
-        [HttpGet("User")]
-        public IActionResult GetUser([FromQuery] Guid userId)
+        [HttpGet("All")]
+        public async Task<User[]> GetAllUsers()
         {
-            return Ok(/*Check if user exists. Return if true*/);
+            return await _userManager.GetAllUsers();
         }
 
+        [AllowAnonymous]
         [HttpPost("Register")]
         public async Task<IActionResult> Register([FromBody] RegisterData data)
         {
@@ -41,13 +43,9 @@ namespace API.Controllers
                     message = "This user already exists",
                     created = false
                 };
-                return BadRequest(response);
+                return Ok(response);
             }
         }
 
-        public async Task<IActionResult> CheckUser([FromBody] LoginData data)
-        {
-            return Ok(await _userManager.CheckUser(data));
-        }
     }
 }

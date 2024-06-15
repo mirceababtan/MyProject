@@ -1,4 +1,5 @@
-﻿using API.Resource.Course.Bookmark.Contract;
+﻿using API.Resource.Authentication.Contract;
+using API.Resource.Course.Bookmark.Contract;
 using API.Resource.Course.Contract;
 using API.Resource.Course.Lesson.Contract;
 using API.Resource.Quiz.Contract;
@@ -29,6 +30,8 @@ namespace API.Infrastructure.Database
         public DbSet<UserProgress> UserProgress { get; set; }
 
         public DbSet<Bookmark> Bookmarks { get; set; }
+
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -79,6 +82,12 @@ namespace API.Infrastructure.Database
                 .HasOne(l => l.Lesson)
                 .WithMany()
                 .HasForeignKey(l => l.LessonId);
+
+            modelBuilder.Entity<RefreshToken>()
+                .HasOne(u => u.User)
+                .WithMany()
+                .HasForeignKey(u => u.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
 
         }
     }
