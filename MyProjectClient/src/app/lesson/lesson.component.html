@@ -1,0 +1,34 @@
+<div class="container mt-4">
+  <div class="lesson-header">
+    <h2>{{ lesson.title }}</h2>
+  </div>
+
+  <!-- Video Player -->
+  <div class="lesson-video">
+    <video width="100%" controls>
+      <source [src]="lesson.videoUrl" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </div>
+
+  <!-- Lesson Content -->
+  <div class="lesson-content mt-4">
+    <h4>Lesson Details</h4>
+    <p>{{ lesson.description }}</p>
+
+    <!-- Optional File Download -->
+    <div *ngIf="lesson.attachmentUrl">
+      <a [href]="lesson.attachmentUrl" download> Download Attachment </a>
+    </div>
+  </div>
+
+  <!-- Actions -->
+  <div class="lesson-actions mt-4">
+    <button class="btn btn-primary" (click)="markAsComplete()">
+      Mark as Complete
+    </button>
+    <button class="btn btn-secondary" (click)="nextLesson()">
+      Next Lesson
+    </button>
+  </div>
+</div>

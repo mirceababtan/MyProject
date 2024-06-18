@@ -78,6 +78,7 @@ namespace API.Manager.User
                     Email = user.Email,
                     UserID = user.Id,
                     Role = user.Role,
+                    CreatedAt = user.CreatedAt
                 });
             }
             return new();

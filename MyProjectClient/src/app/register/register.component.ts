@@ -7,18 +7,12 @@ import { UserService } from '../services/user.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
-  styleUrl: './register.component.scss',
+  styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  registerForm: FormGroup = this.formBuilder.group({});
+  registerForm: any;
   submitted = false;
   statusMessage: string = '';
-
-  data: RegisterData = {
-    username: '',
-    email: '',
-    password: '',
-  };
 
   constructor(
     private formBuilder: FormBuilder,
@@ -26,19 +20,23 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.initializeForm();
+  }
+
+  initializeForm(): void {
     this.registerForm = this.formBuilder.group(
       {
         username: [
-          this.data.username,
+          '',
           [
             Validators.required,
             Validators.minLength(6),
             Validators.maxLength(20),
           ],
         ],
-        email: [this.data.email, [Validators.required, Validators.email]],
+        email: ['', [Validators.required, Validators.email]],
         password: [
-          this.data.email,
+          '',
           [
             Validators.required,
             Validators.minLength(8),
@@ -57,20 +55,30 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.controls;
   }
 
-  onSubmit() {
+  onSubmit(): void {
     this.submitted = true;
 
-    if (this.registerForm.invalid) return;
+    if (this.registerForm.invalid) {
+      return;
+    }
 
-    this.data = this.registerForm.value;
+    const userData: RegisterData = this.registerForm.value;
 
-    this.userService.InsertUser(this.data).subscribe((response) => {
-      this.statusMessage = response.message;
-    });
+    this.userService.insertUser(userData).subscribe(
+      (response) => {
+        this.statusMessage = response.message;
+      },
+      (error) => {
+        this.statusMessage =
+          'Error occurred during registration. Please try again.';
+        console.error('Registration Error:', error);
+      }
+    );
   }
 
-  onReset() {
+  onReset(): void {
     this.submitted = false;
     this.registerForm.reset();
+    this.statusMessage = '';
   }
 }

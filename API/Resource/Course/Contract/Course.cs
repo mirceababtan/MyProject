@@ -1,4 +1,4 @@
-﻿using UserResourceContract =  API.Resource.User.Contract;
+﻿using UserResourceContract = API.Resource.User.Contract;
 
 namespace API.Resource.Course.Contract
 {
@@ -10,6 +10,10 @@ namespace API.Resource.Course.Contract
         public Guid InstructorId { get; set; }
         public UserResourceContract.User? Instructor { get; set; }
         public int LessonCount { get; set; }
+        
+        public string? ImageUrl { get; set; }
+
+        public ICollection<Enrollment> Enrollments { get; set; } = [];
         public required DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

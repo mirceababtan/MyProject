@@ -1,25 +1,39 @@
-<div class="main-container">
-  <div class="header-container">
-    <div class="main-header">
-      <div class="main-header-left-section">
-        <div class="image-container">
-          <img
-            class="page-logo"
-            src="../../assets/logos/owl-bird-icon.svg"
-            alt="logo"
-          />
+<div class="container mt-4">
+  <div class="jumbotron text-center">
+    <h1 class="display-4" style="color: var(--primary-color)">
+      Welcome to LearnHub!
+    </h1>
+    <p class="lead" style="color: var(--text-color)">
+      Login Or Register to start navigate courses!
+    </p>
+    <hr class="my-4" />
+    <p>
+      <a class="btn btn-primary btn-lg mr-2" href="/login" role="button"
+        >Login</a
+      >
+      <a class="btn btn-secondary btn-lg" href="/register" role="button"
+        >Register</a
+      >
+    </p>
+  </div>
+
+  <div class="row">
+    <div
+      class="col-md-4 card-container"
+      (click)="showSnackbar()"
+      *ngFor="let course of randomCourses"
+    >
+      <div class="card mb-4 shadow-sm">
+        <img
+          [src]="'../../assets/course-images/' + course.imageUrl + '.png'"
+          class="card-img-top"
+          alt="Course Image"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ course.title }}</h5>
+          <p class="card-text" style="height: 80px">{{ course.description }}</p>
         </div>
-      </div>
-      <div class="main-header-right-section">
-        <button class="action-button">Home</button>
-        <button class="action-button">All Courses</button>
-        <button class="action-button">About</button>
-        <button class="action-button">Contact</button>
-        <button class="action-button">Register</button>
-        <button class="action-button">Log In</button>
       </div>
     </div>
   </div>
-  <!-- <button (click)="logout()" class="btn btn-danger">Logout</button>
-    <button (click)="getAllUsers()">Get All Users</button> -->
 </div>

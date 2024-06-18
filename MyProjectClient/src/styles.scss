@@ -1,6 +1,38 @@
-* {
-  font-family: "Roboto" sans-serif;
-  font-weight: 400;
-  padding: 0;
+/* src/styles.css */
+:root {
+  --primary-color: #007bff;
+  --secondary-color-green: #28a745;
+  --secondary-color-orange: #ffc107;
+  --background-color: #ffffff;
+  --text-color: #343a40;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+}
+
+body {
+  background: url("./assets/background-images/landing-background-shapes.svg")
+    no-repeat center center fixed;
+  background-size: cover;
   margin: 0;
+  color: var(--text-color);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.snackbar-login-required {
+  background-color: #f44336; // Red color
+  color: white;
+  font-weight: bold;
+  z-index: 1000;
+  position: relative;
+  top: 50%;
 }

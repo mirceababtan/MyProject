@@ -24,7 +24,7 @@ export class UserService {
     });
   }
 
-  InsertUser(data: RegisterData) {
+  insertUser(data: RegisterData) {
     return this.httpClient.post<any>(
       `${environment.apiUrl}/User/Register`,
       data,

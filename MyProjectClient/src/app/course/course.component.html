@@ -1,0 +1,78 @@
+<div class="container">
+  <div *ngIf="course" class="course-container mt-4">
+    <div class="card mb-4 shadow-sm">
+      <div
+        class="card-header"
+        [ngClass]="{
+          'enrolled-header': isEnrolled,
+          'not-enrolled-header': !isEnrolled
+        }"
+      >
+        <h2>{{ course.title }}</h2>
+      </div>
+
+      <img
+        [src]="'../../assets/course-images/' + course.imageUrl + '.png'"
+        class="card-img-top"
+        alt="Course Image"
+      />
+
+      <div class="mt-3 ml-3">
+        <button
+          *ngIf="isLoggedIn"
+          class="btn"
+          [ngClass]="{ 'btn-primary': !isEnrolled, 'btn-danger': isEnrolled }"
+          (click)="toggleEnrollment()"
+        >
+          {{ isEnrolled ? "Unenroll" : "Enroll" }}
+        </button>
+
+        <a
+          *ngIf="isLoggedIn"
+          class="btn btn-secondary ml-3"
+          href="/dashboard"
+          role="button"
+          >Home</a
+        >
+      </div>
+
+      <div class="card-body">
+        <h3 class="card-title">Course Details</h3>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">
+            <strong>Instructor:</strong> {{ course.instructor }}
+          </li>
+          <li class="list-group-item">
+            <strong>Description:</strong> {{ course.description }}
+          </li>
+          <li class="list-group-item">
+            <strong>Duration:</strong> {{ course.duration }}
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <hr />
+
+    <div *ngIf="lessonsPreview && lessonsPreview.length > 0">
+      <h3>Lessons</h3>
+      <div class="list-group">
+        <a
+          *ngFor="let lesson of lessonsPreview"
+          (click)="onLessonClick(lesson.id)"
+          class="list-group-item lesson list-group-item-action"
+        >
+          {{ lesson.title }}
+        </a>
+      </div>
+    </div>
+
+    <div *ngIf="!lessonsPreview || lessonsPreview.length === 0">
+      <p>No lessons available for this course.</p>
+    </div>
+  </div>
+
+  <div *ngIf="!course">
+    <p>Loading...</p>
+  </div>
+</div>

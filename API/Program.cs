@@ -11,6 +11,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using AutoMapper;
+using API.Manager.Course.Contract;
+using API.Manager.Course;
+using API.Resource.Course.Contract;
+using API.Resource.Course;
+using API.Manager.Course.Lesson.Contract;
+using API.Manager.Course.Lesson;
+using API.Resource.Course.Lesson;
+using API.Resource.Course.Lesson.Contract;
 
 namespace API
 {
@@ -25,6 +34,8 @@ namespace API
             
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
+
+            builder.Services.AddAutoMapper(typeof(Program));
 
             builder.Services.AddDbContext<DatabaseContext>(options =>
             {
@@ -49,10 +60,14 @@ namespace API
             builder.Services.AddSingleton<IConfiguration>(builder.Configuration);
 
             builder.Services.AddScoped<IUserManager, UserManager>();
-            builder.Services.AddScoped<IAuthManager,AuthManager>();
+            builder.Services.AddScoped<IAuthManager, AuthManager>();
+            builder.Services.AddScoped<ICourseManager, CourseManager>();
+            builder.Services.AddScoped<ILessonManager,LessonManager>();
             
             builder.Services.AddScoped<IUserResource, UserResource>();
             builder.Services.AddScoped<IAuthResource, AuthResource>();
+            builder.Services.AddScoped<ICourseResource,CourseResource>();
+            builder.Services.AddScoped<ILessonResource, LessonResource>();
 
             builder.Services.AddAuthorization(options =>
             {

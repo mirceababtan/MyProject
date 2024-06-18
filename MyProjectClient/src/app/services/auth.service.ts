@@ -30,6 +30,20 @@ export class AuthService {
     return localStorage.getItem('refreshToken') || '';
   }
 
+  getUserDetailsFromToken(): any {
+    const token = this.getToken();
+    if (token) {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return {
+        id: payload.id,
+        username: payload.username,
+        email: payload.email,
+        memberSince: payload.memberSince,
+      };
+    }
+    return null;
+  }
+
   logout(): void {
     this.httpClient
       .delete<any>(`${environment.apiUrl}/Auth/Logout`, {

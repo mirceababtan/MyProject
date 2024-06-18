@@ -1,0 +1,75 @@
+.container {
+  margin-top: 20px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.jumbotron {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 2rem;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.card {
+  margin-bottom: 20px;
+}
+
+.card-header {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 10px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.card-img-top {
+  height: 300px; /* Desired fixed height */
+  width: 100%; /* Ensure image takes full width of its container */
+  object-fit: contain; /* Maintain aspect ratio without cropping */
+  border-bottom: 1px solid #ddd; /* Optional border styling */
+}
+
+.card-body {
+  padding: 20px;
+}
+
+h2 {
+  color: #333;
+}
+
+h3 {
+  color: var(--primary-color);
+}
+
+.card-title {
+  color: var(--primary-color);
+}
+
+p {
+  color: #666;
+}
+
+.list-group {
+  margin-top: 10px;
+}
+
+.enrolled-header {
+  background-color: var(--success-color);
+  color: #fff;
+}
+
+.not-enrolled-header {
+  background-color: var(--primary-color);
+  color: #000;
+}
+
+.list-group-item {
+  cursor: pointer;
+}
+
+.list-group-item:hover {
+  background-color: #f0f0f0;
+}

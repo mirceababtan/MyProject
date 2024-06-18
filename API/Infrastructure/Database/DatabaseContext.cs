@@ -8,6 +8,7 @@ using API.Resource.Quiz.Question.Contract;
 using API.Resource.User.Contract;
 using API.Resource.User.UserProgress.Contract;
 using Microsoft.EntityFrameworkCore;
+using API.Resource.Course.Lesson.Contract;
 
 namespace API.Infrastructure.Database
 {
@@ -32,6 +33,8 @@ namespace API.Infrastructure.Database
         public DbSet<Bookmark> Bookmarks { get; set; }
 
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+
+        public DbSet<Enrollment> Enrollments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -88,6 +91,36 @@ namespace API.Infrastructure.Database
                 .WithMany()
                 .HasForeignKey(u => u.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Enrollment>()
+                .HasKey(e => new { e.UserId, e.CourseId });
+
+            modelBuilder.Entity<Enrollment>()
+                .HasOne(e => e.User)
+                .WithMany(u => u.Enrollments)
+                .HasForeignKey(e => e.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Enrollment>()
+                .HasOne(e => e.Course)
+                .WithMany(c => c.Enrollments)
+                .HasForeignKey(e => e.CourseId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserCompletedLessons>()
+            .HasKey(ucl => new { ucl.UserId, ucl.LessonId });
+
+            modelBuilder.Entity<UserCompletedLessons>()
+                .HasOne(ucl => ucl.User)
+                .WithMany(u => u.CompletedLessons)
+                .HasForeignKey(ucl => ucl.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<UserCompletedLessons>()
+                .HasOne(ucl => ucl.Lesson)
+                .WithMany(l => l.CompletedByUsers)
+                .HasForeignKey(ucl => ucl.LessonId)
+                .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

@@ -88,6 +88,9 @@ namespace API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("InstructorId")
                         .HasColumnType("uniqueidentifier");
 
@@ -103,6 +106,21 @@ namespace API.Migrations
                     b.HasIndex("InstructorId");
 
                     b.ToTable("Courses");
+                });
+
+            modelBuilder.Entity("API.Resource.Course.Contract.Enrollment", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "CourseId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Enrollments");
                 });
 
             modelBuilder.Entity("API.Resource.Course.Lesson.Contract.Lesson", b =>
@@ -121,6 +139,9 @@ namespace API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("FileUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("LessonNumber")
                         .HasColumnType("int");
 
@@ -128,11 +149,29 @@ namespace API.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("VideoUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
                     b.ToTable("Lessons");
+                });
+
+            modelBuilder.Entity("API.Resource.Course.Lesson.Contract.UserCompletedLessons", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("LessonId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("UserId", "LessonId");
+
+                    b.HasIndex("LessonId");
+
+                    b.ToTable("UserCompletedLessons");
                 });
 
             modelBuilder.Entity("API.Resource.Quiz.Contract.Quiz", b =>
@@ -315,6 +354,25 @@ namespace API.Migrations
                     b.Navigation("Instructor");
                 });
 
+            modelBuilder.Entity("API.Resource.Course.Contract.Enrollment", b =>
+                {
+                    b.HasOne("API.Resource.Course.Contract.Course", "Course")
+                        .WithMany("Enrollments")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("API.Resource.User.Contract.User", "User")
+                        .WithMany("Enrollments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("API.Resource.Course.Lesson.Contract.Lesson", b =>
                 {
                     b.HasOne("API.Resource.Course.Contract.Course", "Course")
@@ -324,6 +382,25 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("API.Resource.Course.Lesson.Contract.UserCompletedLessons", b =>
+                {
+                    b.HasOne("API.Resource.Course.Lesson.Contract.Lesson", "Lesson")
+                        .WithMany("CompletedByUsers")
+                        .HasForeignKey("LessonId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("API.Resource.User.Contract.User", "User")
+                        .WithMany("CompletedLessons")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Lesson");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("API.Resource.Quiz.Contract.Quiz", b =>
@@ -376,6 +453,23 @@ namespace API.Migrations
                     b.Navigation("Lesson");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("API.Resource.Course.Contract.Course", b =>
+                {
+                    b.Navigation("Enrollments");
+                });
+
+            modelBuilder.Entity("API.Resource.Course.Lesson.Contract.Lesson", b =>
+                {
+                    b.Navigation("CompletedByUsers");
+                });
+
+            modelBuilder.Entity("API.Resource.User.Contract.User", b =>
+                {
+                    b.Navigation("CompletedLessons");
+
+                    b.Navigation("Enrollments");
                 });
 #pragma warning restore 612, 618
         }

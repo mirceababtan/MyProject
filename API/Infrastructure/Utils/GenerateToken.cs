@@ -13,9 +13,11 @@ namespace API.Infrastructure.Utils
 
             var claims = new List<Claim>
         {
+            new Claim("id",user.UserID.ToString()),
             new Claim("username", user.Username),
             new Claim("email", user.Email),
             new Claim("role", user.Role),
+            new Claim("memberSince", user.CreatedAt.ToString()),
         };
 
             var token = new JwtSecurityToken(

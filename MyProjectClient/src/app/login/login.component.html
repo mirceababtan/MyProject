@@ -14,13 +14,17 @@
       <label for="password">Password:</label>
       <input
         type="password"
-        placeholder="password"
+        placeholder="Password"
         name="password"
         [(ngModel)]="password"
         class="form-control"
       />
     </div>
-    <div *ngIf="error !== '' && submited">{{ error }}</div>
-    <button class="btn btn-primary" (click)="login()">Login</button>
+    <div *ngIf="error !== '' && submitted" class="text-danger mb-3">
+      {{ error }}
+    </div>
+    <button type="button" class="btn btn-primary btn-block" (click)="login()">
+      Login
+    </button>
   </form>
 </div>
