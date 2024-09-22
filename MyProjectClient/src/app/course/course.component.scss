@@ -70,6 +70,31 @@ p {
   cursor: pointer;
 }
 
+.list-group-item {
+  cursor: pointer;
+  position: relative;
+}
+
+.completed-lesson {
+  background-color: lightgreen;
+}
+
+.locked-lesson {
+  color: lightgray;
+  pointer-events: none;
+}
+
+.completed-tag {
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  width: fit-content;
+  background-color: var(--success-color);
+  color: #fff;
+}
+
 .list-group-item:hover {
   background-color: #f0f0f0;
 }

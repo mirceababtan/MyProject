@@ -24,5 +24,25 @@ namespace API.Manager.Course.Lesson
         {
             return _mapper.Map<Contract.LessonPreview[]>(await _lessonResource.GetLessonsByCourseId(id));
         }
+        public async Task<IEnumerable<Contract.Lesson>> GetLessonByCourseId(Guid courseId)
+        {
+            return _mapper.Map<Contract.Lesson[]>(await _lessonResource.GetLessonsByCourseId(courseId));
+        }
+
+        public async Task MarkLessonAsComplete(Guid userId, Guid lessonId)
+        {
+            await _lessonResource.MarkLessonAsComplete(userId, lessonId);
+        }
+        public async Task<bool> IsLessonCompleted(Guid userId, Guid lessonId)
+        {
+            return await _lessonResource.IsLessonCompleted(userId, lessonId);
+        }
+
+
+        public async Task<IEnumerable<Contract.Lesson>> GetCompletedLessonForUserByCourseId(Guid userId, Guid courseId)
+        {
+            return _mapper.Map<IEnumerable<Contract.Lesson>>(await _lessonResource.GetCompletedLessonForUserByCourseId(userId,courseId));
+        }
+
     }
 }

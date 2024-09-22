@@ -83,5 +83,36 @@ namespace API.Manager.User
             }
             return new();
         }
+
+        public async Task<bool> UpdateUser(Contract.UserUpdate user)
+        {
+            var existingUser = await _userResource.GetUserById(user.Id);
+            if (existingUser == null) return false;
+
+            // Update only if the field is provided
+            if (!string.IsNullOrEmpty(user.Username))
+            {
+                existingUser.Username = user.Username;
+            }
+            if (!string.IsNullOrEmpty(user.Email))
+            {
+                existingUser.Email = user.Email;
+            }
+            if (!string.IsNullOrEmpty(user.Role))
+            {
+                existingUser.Role = user.Role;
+            }
+            // Password change (if provided)
+            /*if (!string.IsNullOrEmpty(user.PasswordHash))
+            {
+                var (hashedPassword, salt) = PasswordHasher.HashPassword(user.PasswordHash);
+                existingUser.PasswordHash = hashedPassword;
+                existingUser.PasswordSalt = salt;
+            }*/
+
+            return await _userResource.UpdateUser(existingUser);
+        }
+
     }
+
 }

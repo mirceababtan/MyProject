@@ -1,8 +1,6 @@
 ﻿using API.Infrastructure.Database;
-using API.Manager.User.Contract;
 using API.Resource.User.Contract;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Contracts;
 
 namespace API.Resource.User
 {
@@ -41,7 +39,7 @@ namespace API.Resource.User
 
         public async Task InsertUser(Contract.User user)
         {
-            await _dbContext.Users.AddAsync(user);
+            await _dbContext.Users.AddAsync(user);  
             await _dbContext.SaveChangesAsync();
         }
 
@@ -49,5 +47,22 @@ namespace API.Resource.User
         {
             return await _dbContext.Users.ToListAsync();
         }
+
+        public async Task<bool> UpdateUser(Contract.User user)
+        {
+            var existingUser = await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
+            if (existingUser == null) return false;
+
+            existingUser.Username = user.Username ?? existingUser.Username;
+            existingUser.Email = user.Email ?? existingUser.Email;
+            existingUser.Role = user.Role ?? existingUser.Role;
+            existingUser.PasswordHash = user.PasswordHash ?? existingUser.PasswordHash;
+            existingUser.PasswordSalt = user.PasswordSalt ?? existingUser.PasswordSalt;
+
+            _dbContext.Users.Update(existingUser);
+            await _dbContext.SaveChangesAsync();
+            return true;
+        }
+
     }
 }

@@ -11,5 +11,7 @@ namespace API.Manager.User.Contract
         public Task<bool> InsertUser(RegisterData data);
 
         public Task<User> CheckUser(LoginData login);
+
+        public Task<bool> UpdateUser(Contract.UserUpdate user);
     }
 }

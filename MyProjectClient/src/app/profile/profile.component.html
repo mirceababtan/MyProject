@@ -1,0 +1,99 @@
+<div class="container mt-4">
+  <div class="jumbotron text-center">
+    <h1 class="display-4" style="color: var(--primary-color)">My Profile</h1>
+    <hr class="my-4" />
+
+    <div class="user-info">
+      <p><strong>Username:</strong> {{ user.username }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Member Since:</strong> {{ user.memberSince | date }}</p>
+    </div>
+
+    <button class="btn btn-primary mr-2" (click)="editProfile()">
+      Edit Profile
+    </button>
+    <button class="btn btn-secondary" (click)="changePassword()">
+      Change Password
+    </button>
+  </div>
+
+  <div *ngIf="isEditingProfile" class="card mt-4">
+    <div class="card-body">
+      <h3 class="card-title">Edit Profile</h3>
+      <form (ngSubmit)="saveProfile()">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            id="username"
+            type="text"
+            class="form-control"
+            [(ngModel)]="editUser.username"
+            name="username"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            class="form-control"
+            [(ngModel)]="editUser.email"
+            name="email"
+          />
+        </div>
+        <button type="submit" class="btn btn-success mr-2">Save Changes</button>
+        <button type="button" class="btn btn-secondary" (click)="cancelEdit()">
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div *ngIf="isChangingPassword" class="card mt-4">
+    <div class="card-body">
+      <h3 class="card-title">Change Password</h3>
+      <form (ngSubmit)="updatePassword()">
+        <div class="form-group">
+          <label for="currentPassword">Current Password</label>
+          <input
+            id="currentPassword"
+            type="password"
+            class="form-control"
+            [(ngModel)]="passwordData.currentPassword"
+            name="currentPassword"
+          />
+        </div>
+        <div class="form-group">
+          <label for="newPassword">New Password</label>
+          <input
+            id="newPassword"
+            type="password"
+            class="form-control"
+            [(ngModel)]="passwordData.newPassword"
+            name="newPassword"
+          />
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm New Password</label>
+          <input
+            id="confirmPassword"
+            type="password"
+            class="form-control"
+            [(ngModel)]="passwordData.confirmPassword"
+            name="confirmPassword"
+          />
+        </div>
+        <button type="submit" class="btn btn-success mr-2">
+          Update Password
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary"
+          (click)="cancelPasswordChange()"
+        >
+          Cancel
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

@@ -64,6 +64,17 @@
   color: #fff;
 }
 
+.completed-tag {
+  font-weight: bold;
+  text-transform: uppercase;
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  width: fit-content;
+  background-color: var(--success-color);
+  color: #fff;
+}
+
 .not-enrolled-tag {
   background-color: var(--danger-color);
   color: #fff;
@@ -113,4 +124,21 @@
 .btn-info:hover {
   background-color: var(--secondary-color);
   border-color: var(--secondary-color);
+}
+
+.custom-checkbox {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+.custom-control-input {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.custom-control-label {
+  font-weight: normal;
 }

@@ -1,0 +1,132 @@
+<div class="container mt-4">
+  <form [formGroup]="courseForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="title">Course Title</label>
+      <input
+        type="text"
+        id="title"
+        formControlName="title"
+        class="form-control"
+      />
+      <div
+        *ngIf="
+          courseForm.get('title').invalid && courseForm.get('title').touched
+        "
+      >
+        <small
+          class="text-danger"
+          *ngIf="courseForm.get('title').errors.required"
+        >
+          Course title is required.
+        </small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Course Description</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        class="form-control"
+      ></textarea>
+      <div
+        *ngIf="
+          courseForm.get('description').invalid &&
+          courseForm.get('description').touched
+        "
+      >
+        <small
+          class="text-danger"
+          *ngIf="courseForm.get('description').errors.required"
+        >
+          Course description is required.
+        </small>
+      </div>
+    </div>
+
+    <div *ngIf="courseForm.get('videoUrl').value">
+      <h5>Video Preview</h5>
+      <video
+        [src]="courseForm.get('videoUrl').value"
+        controls
+        class="w-100"
+      ></video>
+    </div>
+
+    <div class="form-group">
+      <label for="image">Course Image (PNG format, max 2MB)</label>
+      <input
+        type="file"
+        id="image"
+        (change)="onImageSelected($event)"
+        class="form-control"
+      />
+      <div
+        *ngIf="
+          courseForm.get('image')?.invalid && courseForm.get('image')?.touched
+        "
+      >
+        <small
+          class="text-danger"
+          *ngIf="courseForm.get('image').errors.required"
+        >
+          Course image is required.
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="courseForm.get('image').errors?.invalidFileType"
+        >
+          Only PNG images are allowed.
+        </small>
+        <small
+          class="text-danger"
+          *ngIf="courseForm.get('image').errors?.invalidFileSize"
+        >
+          Maximum image size allowed is 2MB.
+        </small>
+      </div>
+    </div>
+
+    <div
+      formArrayName="lessons"
+      cdkDropList
+      (cdkDropListDropped)="drop($event)"
+    >
+      <h3>Lessons</h3>
+      <div
+        *ngFor="let lesson of lessons.controls; let i = index"
+        [formGroupName]="i"
+        cdkDrag
+        class="lesson-item mt-1"
+      >
+        <div class="d-flex justify-content-between align-items-center">
+          <span>{{ lesson.value.lessonNumber }}. {{ lesson.value.title }}</span>
+          <div>
+            <button
+              type="button"
+              class="btn btn-sm btn-primary ml-2"
+              (click)="editLesson(i)"
+            >
+              Edit
+            </button>
+            <button
+              type="button"
+              class="btn btn-sm btn-danger ml-2"
+              (click)="deleteLesson(i)"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-secondary mt-3" (click)="addLesson()">
+      Add Lesson
+    </button>
+
+    <div class="text-right mt-3">
+      <button type="submit" class="btn btn-primary">Save Course</button>
+    </div>
+  </form>
+</div>

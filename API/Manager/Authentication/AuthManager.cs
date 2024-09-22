@@ -13,7 +13,9 @@ namespace API.Manager.Authentication
         private readonly IConfiguration _configuration;
         private readonly IUserManager _userManager;
 
-        public AuthManager(IAuthResource authResource,IUserManager userManager,IConfiguration configuration)
+        public AuthManager(IAuthResource authResource,
+                           IUserManager userManager,
+                           IConfiguration configuration)
         {
             _authResource = authResource;
             _configuration = configuration;

@@ -1,12 +1,10 @@
-/* src/styles.css */
 :root {
-  --primary-color: #007bff;
-  --secondary-color-green: #28a745;
-  --secondary-color-orange: #ffc107;
-  --background-color: #ffffff;
-  --text-color: #343a40;
-  --success-color: #28a745;
-  --danger-color: #dc3545;
+  --primary-color: #007bff; /* Example primary color */
+  --secondary-color: #6c757d; /* Example secondary color */
+  --background-color: #ffffff; /* Example background color */
+  --text-color: #343a40; /* Example text color */
+  --success-color: #28a745; /* Example success color */
+  --danger-color: #dc3545; /* Example danger color */
 }
 
 body {
@@ -29,7 +27,7 @@ body {
 }
 
 .snackbar-login-required {
-  background-color: #f44336; // Red color
+  background-color: #f44336;
   color: white;
   font-weight: bold;
   z-index: 1000;

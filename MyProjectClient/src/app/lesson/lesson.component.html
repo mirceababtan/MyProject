@@ -1,34 +1,55 @@
 <div class="container mt-4">
   <div class="lesson-header">
-    <h2>{{ lesson.title }}</h2>
+    <h2>{{ lesson?.title }}</h2>
   </div>
 
-  <!-- Video Player -->
-  <div class="lesson-video">
-    <video width="100%" controls>
-      <source [src]="lesson.videoUrl" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
+  <div class="lesson-video" *ngIf="lesson?.videoUrl">
+    <iframe
+      width="100%"
+      height="480"
+      [src]="getEmbedUrl(lesson.videoUrl)"
+      frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen
+    ></iframe>
   </div>
+  <h4 *ngIf="!lesson?.videoUrl">No Video available right now.</h4>
 
-  <!-- Lesson Content -->
   <div class="lesson-content mt-4">
-    <h4>Lesson Details</h4>
-    <p>{{ lesson.description }}</p>
+    <p>{{ lesson?.content }}</p>
 
-    <!-- Optional File Download -->
-    <div *ngIf="lesson.attachmentUrl">
-      <a [href]="lesson.attachmentUrl" download> Download Attachment </a>
+    <div *ngIf="lesson?.attachmentUrl">
+      <a [href]="lesson?.attachmentUrl" download> Download Attachment </a>
     </div>
   </div>
 
-  <!-- Actions -->
-  <div class="lesson-actions mt-4">
-    <button class="btn btn-primary" (click)="markAsComplete()">
-      Mark as Complete
+  <div class="lesson-actions mt-4 d-flex justify-content-between">
+    <button
+      class="btn"
+      [ngClass]="{ 'btn-primary': !isCompleted, 'btn-success': isCompleted }"
+      (click)="markAsComplete()"
+      [disabled]="isCompleted"
+    >
+      {{ isCompleted ? "✔ Completed" : "Mark as Complete" }}
     </button>
-    <button class="btn btn-secondary" (click)="nextLesson()">
-      Next Lesson
-    </button>
+    <div>
+      <button
+        class="btn btn-secondary"
+        [disabled]="previousLessonId == ''"
+        (click)="previousLesson()"
+      >
+        Previous Lesson
+      </button>
+      <button
+        class="btn btn-secondary ml-2 mr-1"
+        (click)="nextLesson()"
+        [disabled]="!isCompleted || nextLessonId == ''"
+      >
+        {{ isCompleted ? "Next Lesson →" : "Next Lesson" }}
+      </button>
+      <button class="btn btn-primary ml-2 mr-1" (click)="backToCourse()">
+        Back to Course
+      </button>
+    </div>
   </div>
 </div>

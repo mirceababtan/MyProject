@@ -31,7 +31,7 @@ namespace API.Controllers
         [HttpDelete("Logout")]
         public async Task<IActionResult> Logout([FromQuery] string refreshToken)
         {
-                await _authManager.DeleteRefreshToken(refreshToken);
+            await _authManager.DeleteRefreshToken(refreshToken);
             return Ok();
         }
     }

@@ -1,0 +1,62 @@
+.lesson-container {
+  background-color: var(--background-color);
+  color: var(--text-color);
+  padding: 20px;
+  margin-top: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.lesson-header h2 {
+  color: var(--primary-color);
+}
+
+.lesson-content h4,
+.lesson-actions button {
+  margin-top: 15px;
+}
+
+.lesson-actions .btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.lesson-actions .btn-secondary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.lesson-actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-success {
+  background-color: var(--success-color);
+  border-color: var(--success-color);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  border-color: var(--secondary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-color-hover);
+  border-color: var(--primary-color-hover);
+}
+
+.btn-success:hover {
+  background-color: var(--success-color-hover);
+  border-color: var(--success-color-hover);
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary-color-hover);
+  border-color: var(--secondary-color-hover);
+}

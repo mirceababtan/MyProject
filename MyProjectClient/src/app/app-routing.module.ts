@@ -7,6 +7,9 @@ import { RegisterComponent } from './register/register.component';
 import { CourseComponent } from './course/course.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LessonComponent } from './lesson/lesson.component';
+import { AddCourseComponent } from './add-course/add-course.component';
+import { ProfileComponent } from './profile/profile.component';
+import { EditCourseComponent } from './edit-course/edit-course.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -28,6 +31,26 @@ const routes: Routes = [
     component: DashboardComponent,
     canActivate: [authGuard],
     title: 'Dashboard',
+  },
+  {
+    path: 'courses/edit/:courseid',
+    component: EditCourseComponent,
+    canActivate: [authGuard],
+    title: 'EditCourse',
+  },
+  {
+    path: 'add-course',
+    component: AddCourseComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: 'profile-page',
+    component: ProfileComponent,
+    canActivate: [authGuard],
+  },
+  {
+    path: '**',
+    redirectTo: '/dashboard',
   },
 ];
 

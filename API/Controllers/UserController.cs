@@ -47,5 +47,30 @@ namespace API.Controllers
             }
         }
 
+        [HttpPut("Update")]
+        public async Task<IActionResult> UpdateUser([FromBody] UserUpdate user)
+        {
+            bool result = await _userManager.UpdateUser(user);
+            if (result)
+            {
+                var response = new
+                {
+                    message = "User successfully updated!",
+                    updated = true
+                };
+                return Ok(response);
+            }
+            else
+            {
+                var response = new
+                {
+                    message = "User not found or update failed.",
+                    updated = false
+                };
+                return NotFound(response);
+            }
+        }
+
+
     }
 }

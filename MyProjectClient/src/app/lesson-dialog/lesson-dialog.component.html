@@ -1,0 +1,60 @@
+<div class="container mt-4">
+  <div class="card shadow-sm">
+    <div class="card-header bg-primary text-white">
+      <h2>Edit Lesson</h2>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="lessonForm">
+        <div class="form-group">
+          <label for="title">Lesson Title</label>
+          <input
+            type="text"
+            id="title"
+            formControlName="title"
+            class="form-control"
+            placeholder="Enter lesson title"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="content">Lesson Content</label>
+          <textarea
+            id="content"
+            formControlName="content"
+            class="form-control"
+            rows="4"
+            placeholder="Enter lesson content"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="videoUrl">Video URL</label>
+          <input
+            type="text"
+            id="videoUrl"
+            formControlName="videoUrl"
+            class="form-control"
+            placeholder="Enter video URL"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="fileUrl">File URL (Optional)</label>
+          <input
+            type="text"
+            id="fileUrl"
+            formControlName="fileUrl"
+            class="form-control"
+            placeholder="Enter file URL"
+          />
+        </div>
+      </form>
+    </div>
+    <div class="card-footer d-flex justify-content-end">
+      <button class="btn btn-secondary mr-2" (click)="onCancel()">
+        Cancel
+      </button>
+      <button class="btn btn-primary" (click)="onSave()">Save</button>
+    </div>
+  </div>
+</div>

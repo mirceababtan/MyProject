@@ -7,4 +7,5 @@ export interface Course {
   lessonCount: number;
   imageUrl: string;
   createdAt: Date;
+  isCompleted?: boolean;
 }

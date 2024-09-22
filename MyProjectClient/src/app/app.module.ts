@@ -16,6 +16,12 @@ import { CourseComponent } from './course/course.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LessonComponent } from './lesson/lesson.component';
+import { AddCourseComponent } from './add-course/add-course.component';
+import { LessonDialogComponent } from './lesson-dialog/lesson-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { ProfileComponent } from './profile/profile.component';
+import { EditCourseComponent } from './edit-course/edit-course.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +32,10 @@ import { LessonComponent } from './lesson/lesson.component';
     CourseComponent,
     DashboardComponent,
     LessonComponent,
+    AddCourseComponent,
+    LessonDialogComponent,
+    ProfileComponent,
+    EditCourseComponent,
   ],
   imports: [
     BrowserModule,
@@ -33,6 +43,8 @@ import { LessonComponent } from './lesson/lesson.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MatDialogModule,
+    DragDropModule,
   ],
   providers: [
     UserService,

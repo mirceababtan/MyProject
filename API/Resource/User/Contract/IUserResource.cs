@@ -2,11 +2,13 @@
 {
     public interface IUserResource
     {
-        public Task<User> SearchUserByUsernameAndEmailAsync(string username, string email);
+        public Task<User?> SearchUserByUsernameAndEmailAsync(string username, string email);
 
         public Task<User?> GetUserById(Guid userId);
 
         public Task InsertUser(Contract.User user);
         public Task<List<User>> GetAllUsers();
+
+        public Task<bool> UpdateUser(Contract.User user);
     }
 }

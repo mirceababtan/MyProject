@@ -14,6 +14,7 @@ namespace API.Resource.Course.Contract
         public string? ImageUrl { get; set; }
 
         public ICollection<Enrollment> Enrollments { get; set; } = [];
+
         public required DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

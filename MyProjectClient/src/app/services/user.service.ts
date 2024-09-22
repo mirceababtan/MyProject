@@ -31,4 +31,10 @@ export class UserService {
       { withCredentials: true }
     );
   }
+
+  updateUser(user: User): Observable<any> {
+    return this.httpClient.put<any>(`${environment.apiUrl}/User/Update`, user, {
+      withCredentials: true,
+    });
+  }
 }

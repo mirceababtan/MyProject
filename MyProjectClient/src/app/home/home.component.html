@@ -24,11 +24,7 @@
       *ngFor="let course of randomCourses"
     >
       <div class="card mb-4 shadow-sm">
-        <img
-          [src]="'../../assets/course-images/' + course.imageUrl + '.png'"
-          class="card-img-top"
-          alt="Course Image"
-        />
+        <img [src]="course.imageUrl" class="card-img-top" alt="Course Image" />
         <div class="card-body">
           <h5 class="card-title">{{ course.title }}</h5>
           <p class="card-text" style="height: 80px">{{ course.description }}</p>

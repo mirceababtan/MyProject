@@ -3,6 +3,8 @@ import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { Course } from '../models/course';
 import { Router } from '@angular/router';
+import { Observable, forkJoin } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +18,7 @@ export class DashboardComponent implements OnInit {
   displayedCourses: Course[] = [];
   showAllCourses: boolean = false;
   searchText: string = '';
+  showCompletedCourses: boolean = false;
 
   constructor(
     private authService: AuthService,
@@ -33,17 +36,44 @@ export class DashboardComponent implements OnInit {
   loadEnrolledCourses() {
     this.courseService
       .getUsersEnrolledCourses(this.user.id)
-      .subscribe((courses) => {
-        this.enrolledCourses = courses;
-        this.displayedCourses = this.enrolledCourses;
+      .pipe(
+        switchMap((courses) => {
+          const courseObservables = courses.map((course) =>
+            this.isCourseCompleted(course)
+          );
+          return forkJoin(courseObservables);
+        })
+      )
+      .subscribe((completedCourses) => {
+        this.enrolledCourses = completedCourses;
+        this.updateDisplayedCourses();
       });
   }
 
+  isCourseCompleted(course: Course): Observable<Course> {
+    return this.courseService.isCourseCompleted(course.id).pipe(
+      map((response: any) => {
+        course.isCompleted = response.isCourseCompleted;
+        return course;
+      })
+    );
+  }
+
   loadAllCourses() {
-    this.courseService.getCourses().subscribe((courses) => {
-      this.allCourses = courses;
-      this.displayedCourses = this.allCourses;
-    });
+    this.courseService
+      .getCourses()
+      .pipe(
+        switchMap((courses) => {
+          const courseObservables = courses.map((course) =>
+            this.isCourseCompleted(course)
+          );
+          return forkJoin(courseObservables);
+        })
+      )
+      .subscribe((completedCourses) => {
+        this.allCourses = completedCourses;
+        this.updateDisplayedCourses();
+      });
   }
 
   toggleCoursesView() {
@@ -55,10 +85,29 @@ export class DashboardComponent implements OnInit {
     }
   }
 
+  toggleCompletedCourses() {
+    this.updateDisplayedCourses();
+  }
+
+  updateDisplayedCourses() {
+    if (this.showAllCourses) {
+      this.displayedCourses = this.allCourses;
+    } else {
+      this.displayedCourses = this.enrolledCourses;
+    }
+
+    if (!this.showCompletedCourses) {
+      this.displayedCourses = this.displayedCourses.filter(
+        (course) => !course.isCompleted
+      );
+    }
+
+    if (this.searchText.trim() !== '') {
+      this.searchCourses();
+    }
+  }
+
   searchCourses() {
-    this.displayedCourses = this.showAllCourses
-      ? this.allCourses
-      : this.enrolledCourses;
     this.displayedCourses = this.displayedCourses.filter((course) =>
       course.title.toLowerCase().includes(this.searchText.toLowerCase())
     );
@@ -76,7 +125,22 @@ export class DashboardComponent implements OnInit {
     this.authService.logout();
     this.router.navigate(['/']);
   }
+
   navigateToProfile() {
-    throw new Error('Method not implemented.');
+    this.router.navigate(['/profile-page']);
+  }
+
+  navigateToAddCourse() {
+    this.router.navigate(['/add-course']);
+  }
+  isInstructor(): boolean {
+    if (this.user.role === 'Admin' || this.user.role === 'Instructor')
+      return true;
+    return false;
+  }
+
+  isAdmin(): boolean {
+    if (this.user.role === 'Admin') return true;
+    return false;
   }
 }

@@ -39,6 +39,7 @@ export class AuthService {
         username: payload.username,
         email: payload.email,
         memberSince: payload.memberSince,
+        role: payload.role,
       };
     }
     return null;

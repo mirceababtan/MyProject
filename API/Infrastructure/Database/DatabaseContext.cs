@@ -8,7 +8,6 @@ using API.Resource.Quiz.Question.Contract;
 using API.Resource.User.Contract;
 using API.Resource.User.UserProgress.Contract;
 using Microsoft.EntityFrameworkCore;
-using API.Resource.Course.Lesson.Contract;
 
 namespace API.Infrastructure.Database
 {
@@ -35,6 +34,8 @@ namespace API.Infrastructure.Database
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
         public DbSet<Enrollment> Enrollments { get; set; }
+
+        public DbSet<UserCompletedLessons> UserCompletedLessons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -121,6 +122,7 @@ namespace API.Infrastructure.Database
                 .WithMany(l => l.CompletedByUsers)
                 .HasForeignKey(ucl => ucl.LessonId)
                 .OnDelete(DeleteBehavior.Restrict);
+
 
         }
     }

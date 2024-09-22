@@ -18,6 +18,7 @@ namespace API.Controllers
             _lessonManager = lessonManager;
         }
 
+        [AllowAnonymous]
         [HttpGet("All")]
         public async Task<IActionResult> GetAllCourses()
         {
@@ -30,6 +31,19 @@ namespace API.Controllers
         {
             return Ok(await _courseManager.GetAllCoursesPreviewAsync());
         }
+
+        [HttpPost("Add")]
+        public async Task<IActionResult> AddCourse([FromBody]CourseData courseData)
+        {
+            return Ok(await _courseManager.AddCourse(courseData));
+        }
+
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> DeleteCourse([FromQuery]Guid id)
+        {
+            return Ok(await _courseManager.DeleteCourse(id));
+        }
+
         [AllowAnonymous]
         [HttpGet("GetCourseById")]
         public async Task<IActionResult> GetCourseById([FromQuery] Guid id)
@@ -42,6 +56,12 @@ namespace API.Controllers
         public async Task<IActionResult> GetLessonPreviews([FromQuery] Guid id)
         {
             return Ok(await _lessonManager.GetLessonPreviewsByCourseId(id));
+        }
+
+        [HttpGet("GetLessonsByCourseId")]
+        public async Task<IActionResult> GetLessonsByCourseId([FromQuery] Guid id)
+        {
+            return Ok(await _lessonManager.GetLessonByCourseId(id));
         }
 
         [HttpGet("GetEnrolledById")]
@@ -65,7 +85,7 @@ namespace API.Controllers
         }
 
         [HttpGet("IsUserEnrolled")]
-        public async Task<IActionResult> IsUserEnrolled([FromQuery] Guid userId, Guid courseId)
+        public async Task<IActionResult> IsUserEnrolled([FromQuery] Guid userId, [FromQuery] Guid courseId)
         {
             bool isEnrolled = await _courseManager.IsUserEnrolled(userId, courseId);
             return Ok(new { isEnrolled });
@@ -75,6 +95,32 @@ namespace API.Controllers
         public async Task<IActionResult> GetLessonById([FromQuery] Guid id)
         {
             return Ok(await _lessonManager.GetLessonById(id));
+        }
+
+        [HttpPost("MarkLessonAsCompleted")]
+        public async Task<IActionResult> MarkLessonAsCompleted([FromBody] MarkCompletedRequest request)
+        {
+            await _lessonManager.MarkLessonAsComplete(request.UserId, request.LessonId);
+            return Ok();
+        }
+
+        [HttpGet("IsLessonCompleted")]
+        public async Task<IActionResult> IsLessonCompleted([FromQuery] Guid userId, [FromQuery] Guid lessonId)
+        {
+            return Ok(new { IsLessonCompleted = await _lessonManager.IsLessonCompleted(userId, lessonId) });
+        }
+
+        [HttpGet("GetCompletedLessonForUserByCourseId")]
+        public async Task<IActionResult> GetCompletedLessonForUserByCourseId([FromQuery] Guid userId, [FromQuery] Guid courseId)
+        {
+            return Ok(await _lessonManager.GetCompletedLessonForUserByCourseId(userId, courseId));
+        }
+
+        [HttpGet("IsCourseCompleted")]
+        public async Task<IActionResult> IsCourseCompleted([FromQuery] Guid userId, [FromQuery] Guid courseId)
+        {
+            var isCourseCompleted = await _courseManager.IsCourseCompleted(userId, courseId);
+            return Ok(new { isCourseCompleted });
         }
     }
 }

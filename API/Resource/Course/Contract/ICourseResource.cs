@@ -5,6 +5,8 @@
         Task<IEnumerable<Contract.Course>> GetAllCoursesAsync();
         Task<Contract.Course?> GetCourseByIdAsync(Guid id);
 
+        Task<Contract.Course> AddCourse(Contract.Course course);
+
         Task<Contract.Course?> GetCourseByInstructorId(Guid id);
 
         Task<IEnumerable<Contract.Course?>> GetEnrolledCoursesByUserId(Guid userId);
@@ -13,5 +15,6 @@
 
         Task UnenrollUserFromCourse(Guid userId,Guid courseId);
         Task<bool> IsUserEnrolled(Guid userId,Guid courseId);
+        Task DeleteCourse(Guid id);
     }
 }
